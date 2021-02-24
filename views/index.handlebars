@@ -9,3 +9,33 @@
 </ul>
 
 <hr>
+
+<h2>Add a Movie</h2>
+
+
+<form action="/" method="POST" id="createmovie">
+	<textarea type="text" name="movie"></textarea>
+
+	<button type="submit">Submit</button>
+</form>
+
+
+<script type="text/javascript">
+
+{{!-- create movie form handling --}}
+$("#createmovie").on("submit", function(event) {
+    event.preventDefault();
+    var newMovie = {
+        movie: $("#createmovie [name=movie]").val().trim()
+    };
+
+    $.ajax("/api/movies", {
+        type: "POST",
+        data: newMovie
+    }).then(function() {
+        console.log("added movie");
+        location.reload();
+    })
+})
+
+</script>

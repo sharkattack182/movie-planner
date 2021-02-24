@@ -42,7 +42,20 @@ app.get("/", function (req, res) {
   });
 });
 
-app.post("/api/movies");
+app.post("/api/movies", function (req, res) {
+  connection.query(
+    "INSERT INTO movies (movie) VALUES (?)",
+    [req.body.movie],
+    function (err, result) {
+      if (err) {
+        return res.status(500).end();
+      }
+
+      res.json({ id: result.insertId });
+      console.log({ id: result.insertId });
+    }
+  );
+});
 
 // app.put("/api/movies/:id");
 
