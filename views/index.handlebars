@@ -11,12 +11,21 @@
 <hr>
 
 <h2>Add a Movie</h2>
-
-
 <form action="/" method="POST" id="createmovie">
 	<textarea type="text" name="movie"></textarea>
 
 	<button type="submit">Submit</button>
+</form>
+
+<h2>Update Movie</h2>
+<form id="updatemovie">
+    <select name="id">
+        {{#each movies}}
+        <option value="{{this.id}}">{{this.movie}}</option>
+        {{/each}}
+    </select>
+    <textarea name="movie" type="text" placeholder="movie"></textarea>
+    <button type="submit">Update Movie</button>
 </form>
 
 
@@ -38,4 +47,24 @@ $("#createmovie").on("submit", function(event) {
     })
 })
 
+
+{{!-- Update movie form --}}
+$("#updatemovie").on("submit", function(event) {
+    event.preventDefault();
+    var id = $("[name=id]").val().trim();
+    var updatedMovie = {
+        movie: $("#updatemovie [name=movie]").val().trim()
+    };
+    console.log(id, updatedMovie)
+
+$.ajax("/api/movies/" + id, {
+      type: "PUT",
+      data: updatedMovie
+    }).then(
+      function() {
+        console.log("updated id ", id);
+        location.reload();
+      }
+    );
+})
 </script>

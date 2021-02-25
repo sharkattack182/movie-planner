@@ -57,7 +57,20 @@ app.post("/api/movies", function (req, res) {
   );
 });
 
-// app.put("/api/movies/:id");
+app.put("/api/movies/:id", function (req, res) {
+  connection.query("UPDATE movies SET movie = ? WHERE id = ?", [
+    req.body.movie,
+    req.params.id,
+  ]),
+    function (err, result) {
+      if (err) {
+        return res.status(500).end();
+      } else if (result.changedRows === 0) {
+        return res.status(404).end();
+      }
+      res.status(200).end();
+    };
+});
 
 // app.delete("/api/movies/:id");
 
