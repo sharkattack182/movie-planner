@@ -4,6 +4,7 @@
     {{#each movies}}
     <li>
         <h3>{{movie}}</h3>
+        <button data-movieid="{{this.id}}" class="delmovie">Delete Movie</button>
     </li>
     {{/each}}
 </ul>
@@ -66,5 +67,17 @@ $.ajax("/api/movies/" + id, {
         location.reload();
       }
     );
+});
+
+
+{{!-- Delete Movie --}}
+$(".delmovie").on("click", function(event) {
+    var id = $(this).data("movieid");
+    $.ajax("/api/movies/" + id, {
+        type: "DELETE"
+    }).then(function() {
+        console.log("deleted id: ", id);
+        location.reload();
+    })
 })
 </script>

@@ -72,7 +72,18 @@ app.put("/api/movies/:id", function (req, res) {
     };
 });
 
-// app.delete("/api/movies/:id");
+app.delete("/api/movies/:id", function(req, res) {
+  connection.query("DELETE FROM movies WHERE id = ?",
+  [req.params.id],
+  function(err, result) {
+    if(err) {
+      return res.status(500).end()
+    } else if (result.affectedRows === 0) {
+      return res.status(404).end();
+    }
+    res.status(200).end();
+  })
+});
 
 app.listen(PORT, function () {
   // Log (server-side) when our server has started
